@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "820079616787",
+    "project_id": "schoolnote-fa318",
+    "storage_bucket": "schoolnote-fa318.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+
+        "mobilesdk_app_id": "1:820079616787:android:b74569c36e38d5280fb0e6",
+        "android_client_info": {
+          "package_name": "com.tpowep.schoolnot.student"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJREmhR7vOgtAUFxrOFWtnR6jQkn7IX64"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
