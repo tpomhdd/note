@@ -8,6 +8,7 @@ import 'package:schoolnot/FrameSelectionPage.dart';
 import 'package:schoolnot/Screen/LoadingPage.dart';
 import 'package:schoolnot/Screen/NotePage.dart';
 import 'package:schoolnot/Screen/NotebooksScreen.dart';
+import 'package:schoolnot/teacher/index2.dart';
 
 import '../Screen/NotebookPage.dart';
 
@@ -76,7 +77,7 @@ class ImageUploadController extends ChangeNotifier {
             print(cleanedUrl);
             url=cleanedUrl;
 
-          Get.to(Get.off(LoadingPage(nextPage:NotebooksScreen(phoneNumber: '099'))));          return cleanedUrl;  // إذا كان الرابط موجودًا في استجابة الخادم
+          Get.to(Get.off(LoadingPage(nextPage:teacher())));          return cleanedUrl;  // إذا كان الرابط موجودًا في استجابة الخادم
 
        } catch (e) {
           return 'خطأ في تحليل الاستجابة: $e';

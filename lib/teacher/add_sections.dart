@@ -2,9 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:schoolnot/Widget/man_widget/mytext.dart';
 import 'dart:convert';
 
 import 'package:schoolnot/services/myclient.dart';
+import 'package:schoolnot/teacher/index2.dart';
 
 import '../Controller/GradesController.dart';
 
@@ -118,7 +120,14 @@ class _add_sectionsState extends State<add_sections> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(title: Text("إضافة الشعبة"), backgroundColor: Colors.blueAccent),
+      appBar: AppBar(title: Text("إضافة الشعبة"), backgroundColor: Colors.blueAccent,
+      actions: [
+        InkWell(
+            onTap: (){
+              Get.to(teacher());
+            },
+            child: MyText(color: Colors.white, text: 'العودة للصفحة الرئيسية', size: 15))
+      ],),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:schoolnot/services/myclient.dart';
 
 import '../Controller/GradesController.dart';
+import '../Widget/man_widget/mytext.dart';
+import 'index2.dart';
 
 class AddContentScreen extends StatefulWidget {
   @override
@@ -13,8 +16,10 @@ class AddContentScreen extends StatefulWidget {
 
 class _AddContentScreenState extends State<AddContentScreen> {
   final TextEditingController barcodeController = TextEditingController();
-  final GradesController _gradesController = GradesController(); // كنترولر الصفوف
-  final GradesController2 _gradesController2 = GradesController2(); // كنترولر الصفوف
+  final GradesController _gradesController =
+      GradesController(); // كنترولر الصفوف
+  final GradesController2 _gradesController2 =
+      GradesController2(); // كنترولر الصفوف
 
   final TextEditingController typeController = TextEditingController();
   final TextEditingController urlController = TextEditingController();
@@ -26,7 +31,6 @@ class _AddContentScreenState extends State<AddContentScreen> {
   List<dynamic> subjects = []; // قائمة المواد
   String? selectedTyp; // القيمة المختارة من القائمة
   final List<String> items = ['video', 'audio', 'image', 'activity'];
-
 
   List<dynamic> grades2 = []; // قائمة الصفوف
   String? pagetype;
@@ -47,12 +51,14 @@ class _AddContentScreenState extends State<AddContentScreen> {
       grades2 = fetchedGrades2; // تخزين البيانات
     });
   }
+
   String? selectedSubject; // المادة المختارة
 
   // جلب المواد من API
   Future<void> loadSubjects() async {
     try {
-      final List<dynamic> fetchedSubjects = await _gradesController.fetchSubjects();
+      final List<dynamic> fetchedSubjects =
+          await _gradesController.fetchSubjects();
       setState(() {
         subjects = fetchedSubjects;
       });
@@ -62,14 +68,13 @@ class _AddContentScreenState extends State<AddContentScreen> {
       );
     }
   }
+
   void initState() {
     super.initState();
     loadSubjects();
     loadGrades(); // جلب البيانات عند تشغيل الصفحة
     loadGrades2();
   }
-
-
 
   Future<void> sendData() async {
     final String apiUrl = "https://tpowep.com/notschoolapi/add_content.php";
@@ -97,7 +102,7 @@ class _AddContentScreenState extends State<AddContentScreen> {
       if (response.body.startsWith("<!DOCTYPE html>")) {
         throw Exception("الخادم أعاد صفحة HTML بدلاً من JSON.");
       }
-print(response.body);
+      print(response.body);
       print(selectedTyp.toString());
       final responseData = jsonDecode(response.body);
 
@@ -113,9 +118,21 @@ print(response.body);
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(title: Text("إضافة محتوى"), backgroundColor: Colors.blueAccent),
+      appBar: AppBar(
+        title: Text("إضافة محتوى"),
+        backgroundColor: Colors.blueAccent,
+        actions: [
+          InkWell(
+              onTap: () {
+                Get.to(teacher());
+              },
+              child: MyText(
+                  color: Colors.white,
+                  text: 'العودة للصفحة الرئيسية',
+                  size: 15))
+        ],
+      ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -140,8 +157,6 @@ print(response.body);
                   borderSide: BorderSide(color: Colors.white, width: 2.0),
                 ),
               ),
-
-
               value: selectedTyp,
               items: items.map((String item) {
                 return DropdownMenuItem<String>(
@@ -152,11 +167,11 @@ print(response.body);
               onChanged: (value) {
                 setState(() {
                   selectedTyp = value;
-                  print('object'+selectedTyp.toString());
+                  print('object' + selectedTyp.toString());
                 });
               },
-            ),    _buildTextField(urlController, "رابط المحتوى"),
-
+            ),
+            _buildTextField(urlController, "رابط المحتوى"),
             DropdownButtonFormField<String>(
               value: selectedSubject,
               decoration: InputDecoration(
@@ -198,7 +213,6 @@ print(response.body);
               },
             ),
             DropdownButtonFormField<String>(
-
               decoration: InputDecoration(
                 labelText: 'اختر المادة',
                 labelStyle: TextStyle(color: Colors.white),
@@ -222,14 +236,13 @@ print(response.body);
                 'اختر مادة',
                 style: TextStyle(color: Colors.white),
               ),
-    value: selectedTyp,
-    items: items.map((String item) {
-      return DropdownMenuItem<String>(
-        value: item,
-        child: Text(item),
-      );
-    }
-    ).toList(),
+              value: selectedTyp,
+              items: items.map((String item) {
+                return DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(item),
+                );
+              }).toList(),
               onChanged: (value) {
                 setState(() {
                   selectedTyp = value;
@@ -237,7 +250,6 @@ print(response.body);
               },
             ),
             SizedBox(height: 15),
-
             DropdownButtonFormField<String>(
               value: selectedGrade,
               decoration: InputDecoration(
@@ -320,17 +332,22 @@ print(response.body);
               },
             ),
             SizedBox(height: 15),
-
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: (){
-                myclient().add_content(barcodeController.text, typeController.text, urlController.text, selectedGrade.toString(), selectedGrade2.toString(), selectedSubject.toString());
-
+              onPressed: () {
+                myclient().add_content(
+                    barcodeController.text,
+                    typeController.text,
+                    urlController.text,
+                    selectedGrade.toString(),
+                    selectedGrade2.toString(),
+                    selectedSubject.toString());
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 32),
                 backgroundColor: Colors.blueAccent,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
               ),
               child: Text("إرسال البيانات", style: TextStyle(fontSize: 18)),
             ),

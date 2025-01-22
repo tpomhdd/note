@@ -8,6 +8,8 @@ import 'package:schoolnot/Widget/man_widget/mytext.dart';
 import 'package:schoolnot/teacher/add_sections.dart';
 import 'package:schoolnot/teacher/notebookgrade.dart';
 
+import 'index2.dart';
+
 
 
 class ClassListScreen extends StatefulWidget {
@@ -53,7 +55,17 @@ class _ClassListScreenState extends State<ClassListScreen> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: Colors.black87,
-
+appBar: AppBar(        actions: [
+  InkWell(
+      onTap: () {
+        Get.to(teacher());
+      },
+      child: MyText(
+          color: Colors.white,
+          text: 'العودة للصفحة الرئيسية',
+          size: 15))
+],
+),
 bottomNavigationBar:           ElevatedButton.icon(
   onPressed: () {
       Get.to(AddClass());

@@ -12,6 +12,7 @@ import 'package:schoolnot/teacher/update_notebook.dart';
 import '../Model/Notebook.dart';
 import '../Widget/man_widget/mytext.dart';
 import '../services/NotebookService.dart';
+import 'index2.dart';
 
 
 class getNotebookall extends StatefulWidget {
@@ -58,7 +59,19 @@ class _getNotebookallState extends State<getNotebookall> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+appBar: AppBar(
+  actions: [
+    InkWell(
+        onTap: () {
+          Get.to(teacher());
+        },
+        child: MyText(
+            color: Colors.white,
+            text: 'العودة للصفحة الرئيسية',
+            size: 15))
+  ],
 
+),
         bottomNavigationBar:           ElevatedButton.icon(
           onPressed: () {
             Get.to(NotebookCustomizationScreen());
@@ -91,57 +104,58 @@ class _getNotebookallState extends State<getNotebookall> {
               ? Center(child: Text('لا توجد دفاتر متاحة.', style: TextStyle(fontSize: 18, color: Colors.white)))
               : Container(
             height: double.infinity,
-            child: Column(
-              children: [
-                SizedBox(height: 100,)   ,                 Center(
-                  child: Text(
-                    'كل الدفاتر',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: 100,)   ,                 Center(
+                    child: Text(
+                      'كل الدفاتر',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
 
-                SingleChildScrollView(
-                  child: Container(
-                    height: 550,
-                    child: ListView.builder(
-                      itemCount: _notebooks.length,
-                      itemBuilder: (context, index) {
-                        final notebook = _notebooks[index];
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.9),
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 10,
-                                  offset: Offset(0, 4), // Shadow direction
-                                ),
-                              ],
-                            ),
-                            child: ListTile(
-                              contentPadding: EdgeInsets.all(16),
-                              title: Text(
-                                notebook.name.toString(),
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
-                                ),
+                  SingleChildScrollView(
+                    child: Container(
+                      height: 550,
+                      child: ListView.builder(
+                        itemCount: _notebooks.length,
+                        itemBuilder: (context, index) {
+                          final notebook = _notebooks[index];
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.9),
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 10,
+                                    offset: Offset(0, 4), // Shadow direction
+                                  ),
+                                ],
                               ),
-                              subtitle: Text(
-                                'الصف: ${notebook.grade}',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black54,
+                              child: ListTile(
+                                contentPadding: EdgeInsets.all(16),
+                                title: Text(
+                                  notebook.name.toString(),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87,
+                                  ),
                                 ),
-                              ),
+                                subtitle: Text(
+                                  'الصف: ${notebook.grade}',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black54,
+                                  ),
+                                ),
 leading:
 InkWell(
   onTap: (){
@@ -158,26 +172,27 @@ InkWell(
     color: Colors.black, data: '',
   ),
 ),
-                              onTap: () {
-                                notebook.subject;
-                           //Get.to(NotePage(id: notebook.subject.toString(),idnote: notebook.id.toString(),));
-                                Get.to(                        NotePage(
-                                  id: notebook.subject.toString()??'',
-                                  idnote: notebook.id.toString()??'',
-                                ));
+                                onTap: () {
+                                  notebook.subject;
+                             //Get.to(NotePage(id: notebook.subject.toString(),idnote: notebook.id.toString(),));
+                                  Get.to(                        NotePage(
+                                    id: notebook.subject.toString()??'',
+                                    idnote: notebook.id.toString()??'',
+                                  ));
 
 
 
-                                // توجيه المستخدم لصفحة التفاصيل (يمكنك إضافة صفحة تفاصيل هنا)
-                              },
+                                  // توجيه المستخدم لصفحة التفاصيل (يمكنك إضافة صفحة تفاصيل هنا)
+                                },
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

@@ -215,29 +215,7 @@ final prefs = await SharedPreferences.getInstance();
 
 
                     children: [
-                      Expanded(
-                        flex: 2,
-                        child: Padding(
 
-                          padding: EdgeInsets.all(8),
-                          child: _notebook != null && _notebook!['Subject'] != null
-                              ? Container(
-                            color: Colors.transparent,
-                            height: 150,
-                            width: 100,
-                            child: BarcodeSlider20(id: _notebook!['Subject'].toString()),
-                          )
-                              : Container(
-                            height:75 ,
-                            width: 75,
-                            alignment: Alignment.center,
-                            child: Text(
-                              'جاري التحميل',
-                              style: TextStyle(color: Colors.white, fontSize: 16),
-                            ),
-                          ),
-                        ),
-                      ),
                       // الحقول السفلية (اسم، المادة، الصف)
                       Expanded(
                         flex: 4,

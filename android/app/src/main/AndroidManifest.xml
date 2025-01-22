@@ -1,10 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tpowep.schoolnot.teacher">
+    package="com.tpowep.schoolnot">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:label="الدفتر المدرسي"
+        android:label=" الدفتر المدرسي للمعلم "
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

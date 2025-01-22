@@ -288,7 +288,7 @@ Future add_sections(String name,String thetetcher,String classs) async {
 //    var mydata=jsonDecode(data.toString());
     var reesponse = await http.post(url, body: data);
     if (reesponse.statusCode == 200) {
-      Get.snackbar('', ' تم التعدي');
+      Get.snackbar('', ' تم التعديل');
 
       //     Get.to(LoadingPage(nextPage: NotebookPage(id: Subject,)));
     } else {

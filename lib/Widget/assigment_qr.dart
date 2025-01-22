@@ -63,7 +63,7 @@ class _assigment_qrState extends State<assigment_qr> {
       print("🚨 خطأ: فهرس غير صالح: $e");
       return SizedBox();    }
 
-    final assignment = assignments[widget.pages];
+    final assignment = assignments[index];
     return                Column(
 
       children: [

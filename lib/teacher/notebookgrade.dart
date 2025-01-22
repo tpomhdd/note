@@ -13,6 +13,7 @@ import 'package:schoolnot/teacher/update_notebook.dart';
 import '../Model/Notebook.dart';
 import '../Widget/man_widget/mytext.dart';
 import '../services/NotebookService.dart';
+import 'index2.dart';
 
 
 class getNotebookgrde extends StatefulWidget {
@@ -60,7 +61,19 @@ class _getNotebookgrdeState extends State<getNotebookgrde> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+appBar: AppBar(
+  actions: [
+    InkWell(
+        onTap: () {
+          Get.to(teacher());
+        },
+        child: MyText(
+            color: Colors.white,
+            text: 'العودة للصفحة الرئيسية',
+            size: 15))
+  ],
 
+),
         bottomNavigationBar:           ElevatedButton.icon(
           onPressed: () {
             Get.to(NotebookCustomizationScreen());

@@ -4,6 +4,8 @@ import 'package:schoolnot/teacher/getNotebookall.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:schoolnot/teacher/classroom.dart';
 
+import '../Widget/man_widget/mytext.dart';
+
 class teacher extends StatelessWidget {
   const teacher({Key? key}) : super(key: key);
 
@@ -23,6 +25,17 @@ class teacher extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.blueAccent,
         elevation: 4,
+        actions: [
+          InkWell(
+              onTap: () {
+                Get.to(teacher());
+              },
+              child: MyText(
+                  color: Colors.white,
+                  text: 'العودة للصفحة الرئيسية',
+                  size: 15))
+        ],
+
       ),
       body: Container(
         height: double.infinity,

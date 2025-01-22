@@ -4,9 +4,7 @@ import 'package:schoolnot/Widget/assigment_qr.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:turn_page_transition/turn_page_transition.dart';
 
-import '../Widget/man_widget/mytext.dart';
 import '../services/PrintService.dart';
-import 'BarcodeSlider.dart';
 
 class PageViewScreen extends StatefulWidget {
   final int pages;
@@ -26,31 +24,35 @@ class PageViewScreen extends StatefulWidget {
 
 class _PageViewScreenState extends State<PageViewScreen> {
   int _currentPage = 0;
+  final GlobalKey _globalKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    _loadPageNumber(); // تحميل رقم الصفحة عند بدء التطبيق
+    _loadPageNumber();
   }
 
   Future<void> _loadPageNumber() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       setState(() {
-        _currentPage = prefs.getInt('current_page_${widget.id}') ?? 0; // افتراضيًا 0
+        _currentPage = prefs.getInt('current_page_${widget.id}') ?? 0;
+        if (_currentPage >= widget.pages) {
+          _currentPage = widget.pages - 1; // منع تجاوز الحد
+        }
       });
     } catch (e) {
       print('Error loading page number: $e');
     }
   }
 
-  Future<void> _updateAndSavePageNumber() async {
+  Future<void> _updateAndSavePageNumber(int newPage) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       setState(() {
-        _currentPage++; // زيادة العداد بمقدار 1
+        _currentPage = newPage;
       });
-      await prefs.setInt('current_page_${widget.id}', _currentPage); // حفظ العداد الجديد
+      await prefs.setInt('current_page_${widget.id}', _currentPage);
     } catch (e) {
       print('Error saving page number: $e');
     }
@@ -58,7 +60,7 @@ class _PageViewScreenState extends State<PageViewScreen> {
 
   void _nextPage() {
     if (_currentPage < widget.pages - 1) {
-      _updateAndSavePageNumber();
+      _updateAndSavePageNumber(_currentPage + 1);
       Navigator.of(context).push(
         TurnPageRoute(
           overleafColor: Colors.white,
@@ -73,38 +75,15 @@ class _PageViewScreenState extends State<PageViewScreen> {
     }
   }
 
-  void _previousPage() async {
+  void _previousPage() {
     if (_currentPage > 0) {
-      try {
-        final prefs = await SharedPreferences.getInstance();
-        setState(() {
-          _currentPage--; // تقليل العداد بمقدار 1
-        });
-        await prefs.setInt('current_page_${widget.id}', _currentPage); // حفظ العداد الجديد
-        Navigator.of(context).pop();
-      } catch (e) {
-        print('Error navigating to the previous page: $e');
-      }
-    }
-  }
-
-  void _resetPage() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      setState(() {
-        _currentPage = 0; // إعادة الصفحة إلى الصفر
-      });
-      await prefs.setInt('current_page_${widget.id}', _currentPage); // حفظ العداد الجديد
+      _updateAndSavePageNumber(_currentPage - 1);
       Navigator.of(context).pop();
-    } catch (e) {
-      print('Error resetting page: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey _globalKey = GlobalKey();
-
     return Scaffold(
       bottomNavigationBar: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,14 +102,14 @@ class _PageViewScreenState extends State<PageViewScreen> {
         onPressed: () => PrintService.printScreen(context, _globalKey),
         child: const Icon(Icons.print, size: 25),
       ),
-      body: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.all(16),
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: RepaintBoundary(
-                key: _globalKey,
+      body: RepaintBoundary(
+        key: _globalKey,
+        child: Container(
+          color: Colors.white,
+          padding: const EdgeInsets.all(16),
+          child: Stack(
+            children: [
+              SingleChildScrollView(
                 child: Column(
                   children: List.generate(
                     100,
@@ -146,40 +125,40 @@ class _PageViewScreenState extends State<PageViewScreen> {
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: 2,
-              left: 10,
-              child: assigment_qr(
-                idnot: widget.idnot,
-                title: 'title',
-                content: 'content',
-                id: 'id',
-                pages: _currentPage,
-              ),
-            ),
-            Positioned(
-              bottom: 16,
-              right: 16,
-              child: Container(
-                color: Colors.transparent,
-                height: 150,
-                width: 100,
-                child: BarcodeSliderPages(
-                  id: widget.id,
+              Positioned(
+                bottom: 2,
+                left: 10,
+                child: assigment_qr(
+                  idnot: widget.idnot,
+                  title: 'title',
+                  content: 'content',
+                  id: 'id',
                   pages: _currentPage,
                 ),
               ),
-            ),
-            Positioned(
-              bottom: 16,
-              left: 16,
-              child: Text(
-                "صفحة ${_currentPage + 1}",
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Positioned(
+                bottom: 16,
+                right: 16,
+                child: Container(
+                  color: Colors.transparent,
+                  height: 150,
+                  width: 100,
+                  child: BarcodeSliderPages(
+                    id: widget.id,
+                    pages: _currentPage, // تأكد من عدم تجاوز النطاق هنا
+                  ),
+                ),
               ),
-            ),
-          ],
+              Positioned(
+                bottom: 30,
+                left: 160,
+                child: Text(
+                  "صفحة ${_currentPage + 1}",
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

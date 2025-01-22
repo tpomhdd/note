@@ -77,7 +77,7 @@ class _BarcodeSliderPagesState extends State<BarcodeSliderPages> {
 
                           child: BarcodePage(
 
-                            url: barcodes[widget.pages]['content_url'].toString(), address:  barcodes[widget.pages]['barcode_id'].toString(),)); // عرض الباركود
+                            url: barcodes[index]['content_url'].toString(), address:  barcodes[index]['barcode_id'].toString(),)); // عرض الباركود
 
                     },
                   );

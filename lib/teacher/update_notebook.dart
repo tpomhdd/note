@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Controller/GradesController.dart';
 import '../Controller/ImageUploadController.dart';
+import '../Widget/man_widget/mytext.dart';
+import 'index2.dart';
 
 class update_notebook extends StatefulWidget {
   final String id;
@@ -78,6 +80,19 @@ class _update_notebookState extends State<update_notebook> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            InkWell(
+                onTap: () {
+                  Get.to(teacher());
+                },
+                child: MyText(
+                    color: Colors.white,
+                    text: 'العودة للصفحة الرئيسية',
+                    size: 15))
+          ],
+
+        ),
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
